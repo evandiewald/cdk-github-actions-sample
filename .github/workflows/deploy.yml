@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: v18.15.0
       - name: Build
         run: |-
           npm ci
@@ -26,7 +29,6 @@ jobs:
           npm run build
           npm run cdk synth
           npm run lint
-          pip3 install -r runtime/requirements.txt
           npm run test
       - name: Upload cdk.out
         uses: actions/upload-artifact@v3

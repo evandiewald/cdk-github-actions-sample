@@ -27,7 +27,7 @@ export class PipelineStack extends cdk.Stack {
                 gitHubActionRoleArn: githubActionRoleArn.stringValue,
             }),
             preBuildSteps: [
-                { uses: 'actions/setup-node@v2', with: { nodeVersion: process.version }}
+                { uses: 'actions/setup-node@v3', with: { nodeVersion: process.version }}
             ],
         });
 
