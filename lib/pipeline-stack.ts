@@ -29,7 +29,12 @@ export class PipelineStack extends cdk.Stack {
             ],
         });
 
-        pipeline.addStage(new PipelineAppStage(this, 'PipelineAppStage'));
+        pipeline.addStage(new PipelineAppStage(this, 'devStage', {
+            env: {
+                account: cdk.Stack.of(this).account,
+                region: cdk.Stack.of(this).region,
+            },
+        }));
     }
 
 }
