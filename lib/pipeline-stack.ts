@@ -20,13 +20,15 @@ export class PipelineStack extends cdk.Stack {
                     'npm run build',
                     'npm run cdk synth',
                     'npm run lint',
-                    'pip3 install -r runtime/requirements.txt',
                     'npm run test',
                 ],
             }),
             awsCreds: AwsCredentials.fromOpenIdConnect({
                 gitHubActionRoleArn: githubActionRoleArn.stringValue,
             }),
+            preBuildSteps: [
+                { uses: 'actions/setup-node@v2', with: { nodeVersion: process.version }}
+            ],
         });
 
     }
