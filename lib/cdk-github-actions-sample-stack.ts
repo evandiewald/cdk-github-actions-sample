@@ -8,7 +8,7 @@ export class CdkGithubActionsSampleStack extends cdk.Stack {
 
     // example resource
     const queue = new sqs.Queue(this, 'CdkGithubActionsSampleQueue', {
-      visibilityTimeout: cdk.Duration.seconds(300)
+      visibilityTimeout: cdk.Duration.seconds(150)
     });
   }
 }
