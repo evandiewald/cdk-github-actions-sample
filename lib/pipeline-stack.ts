@@ -15,8 +15,9 @@ export class PipelineStack extends cdk.Stack {
         const pipeline = new GitHubWorkflow(this, 'Pipeline', {
             synth: new ShellStep('Build', {
                 commands: [
-                    'yarn',
-                    'yarn build',
+                    'npm ci',
+                    'npm run build',
+                    'npx cdk synth',
                 ],
             }),
             awsCreds: AwsCredentials.fromOpenIdConnect({

@@ -24,8 +24,9 @@ jobs:
           node-version: v18.15.0
       - name: Build
         run: |-
-          yarn
-          yarn build
+          npm ci
+          npm run build
+          npx cdk synth
       - name: Upload cdk.out
         uses: actions/upload-artifact@v3
         with:
