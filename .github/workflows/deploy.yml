@@ -22,12 +22,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: v18.15.0
-      - uses: youyo/aws-cdk-github-actions@v2
       - name: Build
         run: |-
           yarn
           yarn build
-          cdk diff
       - name: Upload cdk.out
         uses: actions/upload-artifact@v3
         with:

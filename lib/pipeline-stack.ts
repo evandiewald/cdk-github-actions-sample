@@ -17,7 +17,6 @@ export class PipelineStack extends cdk.Stack {
                 commands: [
                     'yarn',
                     'yarn build',
-                    'cdk diff'
                 ],
             }),
             awsCreds: AwsCredentials.fromOpenIdConnect({
@@ -25,7 +24,6 @@ export class PipelineStack extends cdk.Stack {
             }),
             preBuildSteps: [
                 { uses: 'actions/setup-node@v3', with: { nodeVersion: process.version }},
-                { uses: 'youyo/aws-cdk-github-actions@v2' },
             ],
         });
 
