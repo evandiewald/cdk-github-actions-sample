@@ -15,19 +15,17 @@ export class PipelineStack extends cdk.Stack {
         const pipeline = new GitHubWorkflow(this, 'Pipeline', {
             synth: new ShellStep('Build', {
                 commands: [
-                    'npm ci',
-                    'npm run build:runtime',
-                    'npm run build',
-                    'npm run cdk synth',
-                    'npm run lint',
-                    'npm run test',
+                    'yarn',
+                    'yarn build',
+                    'cdk diff'
                 ],
             }),
             awsCreds: AwsCredentials.fromOpenIdConnect({
                 gitHubActionRoleArn: githubActionRoleArn.stringValue,
             }),
             preBuildSteps: [
-                { uses: 'actions/setup-node@v3', with: { nodeVersion: process.version }}
+                { uses: 'actions/setup-node@v3', with: { nodeVersion: process.version }},
+                { uses: 'youyo/aws-cdk-github-actions@v2' },
             ],
         });
 
