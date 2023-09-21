@@ -4,6 +4,7 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { GitHubWorkflow, AwsCredentials } from 'cdk-pipelines-github';
 import { ShellStep } from "aws-cdk-lib/pipelines";
 import { Construct } from 'constructs';
+import { PipelineAppStage } from "./pipeline-app-stage";
 
 export class PipelineStack extends cdk.Stack {
 
@@ -28,6 +29,7 @@ export class PipelineStack extends cdk.Stack {
             ],
         });
 
+        pipeline.addStage(new PipelineAppStage(this, 'PipelineAppStage'));
     }
 
 }
