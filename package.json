@@ -6,6 +6,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "build:ci": "chmod +x scripts/build_ci.sh && scripts/build_ci.sh",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
