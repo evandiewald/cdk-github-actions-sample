@@ -12,6 +12,7 @@ export class PipelineStack extends cdk.Stack {
         super(scope, id, props);
 
         const githubActionRoleArn = ssm.StringParameter.fromStringParameterName(this, 'githubActionRoleArn', 'cdk-github-action-role-arn');
+        const developmentAccountId = ssm.StringParameter.fromStringParameterName(this, 'developmentAccountId', 'development-account-id');
 
         const pipeline = new GitHubWorkflow(this, 'Pipeline', {
             synth: new ShellStep('Build', {
@@ -31,8 +32,8 @@ export class PipelineStack extends cdk.Stack {
 
         pipeline.addStage(new PipelineAppStage(this, 'devStage', {
             env: {
-                account: cdk.Stack.of(this).account,
-                region: cdk.Stack.of(this).region,
+                account: '352937523354',
+                region: 'us-east-1',
             },
         }));
     }
