@@ -49,6 +49,7 @@ jobs:
 
   deploy:
     name: Deploy
+    needs: [synth]
     permissions:
       contents: read
       id-token: write
@@ -83,8 +84,6 @@ jobs:
       - name: cdk deploy
         run: |-
           npm install -g aws-cdk
-#          npm run build
-#          npm run build:ci
           npx cdk deploy --app 'cdk.out/'
 
 
