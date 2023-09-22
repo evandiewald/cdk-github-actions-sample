@@ -56,12 +56,12 @@ jobs:
           aws-region: us-west-2
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: ${Token[TOKEN.659]}
+          role-to-assume: ${{ secrets.GITHUB_ACTIONS_ROLE_ARN }}
       - id: Publish
         name: Publish Assets-FileAsset1
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset1-step.sh
   devStage-CdkGithubActionsSampleStack-Deploy:
-    name: Deploy PipelineStackdevStageCdkGithubActionsSampleStack43C88C77
+    name: Deploy devStageCdkGithubActionsSampleStackFA01456D
     permissions:
       contents: read
       id-token: write
@@ -76,7 +76,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: ${Token[TOKEN.659]}
+          role-to-assume: ${{ secrets.GITHUB_ACTIONS_ROLE_ARN }}
       - name: Assume CDK Deploy Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
