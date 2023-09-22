@@ -20,7 +20,7 @@ jobs:
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          aws-region: us-west-2
+          aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
