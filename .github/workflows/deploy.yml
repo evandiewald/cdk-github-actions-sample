@@ -29,20 +29,12 @@ jobs:
           npm ci
           npm run build
           npm run build:ci
-          npm run cdk synth -- -c developmentAccountId=${{ secrets.ACCOUNT_ID_DEVELOPMENT }} -c stagingAccountId=${{ secrets.ACCOUNT_ID_STAGING }}
+          npm run cdk synth -- -c developmentAccountId=${{ secrets.AWS_ACCOUNT_ID_DEVELOPMENT }} -c stagingAccountId=${{ secrets.AWS_ACCOUNT_ID_STAGING }}
       - name: Upload cdk.out
         uses: actions/upload-artifact@v3
         with:
           name: cdk.out
           path: cdk.out
-      - name: Zip Artifact
-        run: |
-          zip -r cdk.out.zip cdk.out
-      - name: Upload zipped artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: cdk.out.zip
-          path: cdk.out.zip
 
   deploy:
     name: Deploy
