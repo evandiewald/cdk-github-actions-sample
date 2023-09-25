@@ -73,7 +73,7 @@ jobs:
       - name: Deploy - Dev
         run: |-
           npm install -g aws-cdk
-          npx cdk deploy --app 'cdk.out/assembly-Dev' --never-approve
+          npx cdk deploy --app "./cdk.out/assembly-Dev" --never-approve
 #      - name: Deploy - Staging
 #        run: |-
 #          npm install -g aws-cdk
