@@ -49,9 +49,6 @@ jobs:
         with:
           name: cdk.out
           path: cdk.out
-      - name: Inspect folder
-        run: |
-          ls cdk.out
       - uses: actions/setup-node@v3
         with:
           node-version: v18.15.0
@@ -77,10 +74,9 @@ jobs:
         run: |-
           npm install -g aws-cdk
           npx cdk deploy --app "./cdk.out/assembly-Dev" --never-approve
-#      - name: Deploy - Staging
-#        run: |-
-#          npm install -g aws-cdk
-#          npx cdk deploy --app 'cdk.out/assembly-Staging' --never-approve
+      - name: Deploy - Staging
+        run: |-
+          npx cdk deploy --app 'cdk.out/assembly-Staging' --never-approve
 
 
 #  Assets-FileAsset1:
