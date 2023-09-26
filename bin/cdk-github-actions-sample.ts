@@ -21,8 +21,9 @@ const app = new cdk.App();
 
 const developmentAccountId = app.node.tryGetContext('developmentAccountId');
 const stagingAccountId = app.node.tryGetContext('stagingAccountId');
+const productionAccountId = app.node.tryGetContext('productionAccountId');
 
-if (developmentAccountId === undefined || stagingAccountId === undefined) {
+if (developmentAccountId === undefined || stagingAccountId === undefined || productionAccountId === undefined) {
     new CdkGithubActionsSampleStack(app, 'CdkGithubActionsSampleStack', {});
 } else {
 
@@ -36,6 +37,13 @@ if (developmentAccountId === undefined || stagingAccountId === undefined) {
     new DeployStage(app, 'Staging', {
         env: {
             account: stagingAccountId,
+            region: "us-east-1",
+        }
+    });
+
+    new DeployStage(app, 'Prod', {
+        env: {
+            account: productionAccountId,
             region: "us-east-1",
         }
     });

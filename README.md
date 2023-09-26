@@ -6,6 +6,10 @@ This CDK app and associated workflow demonstrates how to deploy infrastructure v
 
 The workflow retrieves short-lived credentials to authenticate with AWS by assuming a role managed by another [repository](https://github.com/evandiewald/cdk-github-actions-setup). To use that role to deploy additional repositories' workflows, you need to update the trust policy in that role. See the README in [`cdk-github-actions-setup`](https://github.com/evandiewald/cdk-github-actions-setup) for more details.
 
+Every account that you intend to deploy infrastructure into must be [bootstrapped](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html). Use the `--trust` flag to allow cross-account deployments. For example, to allow the pipeline account (the account where the `GithubActionsRole` is deployed) to deploy into the staging account, run this command **while authenticated in the staging account**:
+
+`cdk bootstrap aws://STAGING_ACCOUNT_ID/REGION --trust PIPELINE_ACCOUNT_ID`
+
 ## Details
 
 There are two, similar workflows associated with this sample. 
