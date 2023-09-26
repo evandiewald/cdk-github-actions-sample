@@ -10,6 +10,8 @@ Every account that you intend to deploy infrastructure into must be [bootstrappe
 
 `cdk bootstrap aws://STAGING_ACCOUNT_ID/REGION --trust PIPELINE_ACCOUNT_ID`
 
+You will also need to configure the necessary secrets used by the workflows, including `ACTIONS_ROLE_ARN` (the ARN of the `GithubActionsRole`), `AWS_ACCOUNT_ID_DEVELOPMENT`, `AWS_ACCOUNT_ID_STAGING`, and `AWS_ACCOUNT_ID_PRODUCTION`. 
+
 ## Details
 
 There are two, similar workflows associated with this sample. 
