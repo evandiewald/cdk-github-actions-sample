@@ -31,6 +31,8 @@ Once the first-time setup is complete, you can run the workflows to preview, bui
 
 [**preview-deploy.yml**](.github/workflows/preview-deploy.yml): when a PR is **opened**, the stack is synthesized, tests are run, and `cdk diff` is performed so that you can preview any changes that would be made to the development account.
 
+![Preview Deployment](static/preview-workflow.png)
+
 #### PR Merged - Deploy to Dev and Staging
 
 [**deploy-dev-staging.yml**](.github/workflows/deploy-dev-staging.yml): when a PR is **merged**, CDK stacks are first synthesized for multiple environments (Dev/Stage/Prod) using CDK Stages. This example build also includes [packaging of a lambda layer](scripts/build_ci.sh) to show how to incorporate multiple steps into the workflow. The current configuration is to deploy to Development, then Staging in series. After successful deployment to Staging, a draft release is created.

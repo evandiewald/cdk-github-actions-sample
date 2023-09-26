@@ -37,7 +37,7 @@ jobs:
           path: cdk.out
 
   deploy:
-    name: Deploy
+    name: Deploy - Dev/Staging
     needs: [synth]
     permissions:
       contents: read
@@ -90,7 +90,7 @@ jobs:
           zip -r cdk.out.zip cdk.out
       - name: Generate release tag
         id: generate_release_tag
-        uses: alexvingg/next-release-tag@v1.0.3
+        uses: alexvingg/next-release-tag@v1.0.4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tag_prefix: ''
