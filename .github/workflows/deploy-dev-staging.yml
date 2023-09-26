@@ -79,7 +79,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: cdk-out
+          name: cdk.out
           path: cdk.out
       # we can't attach a folder to a release
       - name: Zip Artifact
