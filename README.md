@@ -37,9 +37,17 @@ Once the first-time setup is complete, you can run the workflows to preview, bui
 
 [**deploy-dev-staging.yml**](.github/workflows/deploy-dev-staging.yml): when a PR is **merged**, CDK stacks are first synthesized for multiple environments (Dev/Stage/Prod) using CDK Stages. This example build also includes [packaging of a lambda layer](scripts/build_ci.sh) to show how to incorporate multiple steps into the workflow. The current configuration is to deploy to Development, then Staging in series. After successful deployment to Staging, a draft release is created.
 
+![Merge PR](static/deploy-staging.png)
+
 #### After Successful Deployment to Dev/Staging - Deploy to Prod
 
-[**deploy-production.yml**](.github/workflows/deploy-production.yml): The [deploy-dev-staging.yml](.github/workflows/deploy-dev-staging.yml) workflow creates a draft release as the last step. To deploy this release to production, go into the draft release and click "Publish Release". This will trigger the production deployment.
+[**deploy-production.yml**](.github/workflows/deploy-production.yml): The [deploy-dev-staging.yml](.github/workflows/deploy-dev-staging.yml) workflow creates a draft release as the last step. 
+
+![View Draft Release](static/view-release.png)
+
+To deploy this release to production, go into the draft release and click "Publish Release". This will trigger the production deployment.
+
+![Publish Release](static/publish-release.png)
 
 
 Other ideas:
