@@ -10,7 +10,7 @@ export class CdkGithubActionsSampleStack extends cdk.Stack {
 
     // example resource
     const queue = new sqs.Queue(this, 'CdkGithubActionsSampleQueue', {
-      visibilityTimeout: cdk.Duration.seconds(150)
+      visibilityTimeout: cdk.Duration.seconds(240)
     });
 
     const lambdaLayer = new lambda.LayerVersion(this, 'LambdaLayer', {

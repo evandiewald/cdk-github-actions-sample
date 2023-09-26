@@ -30,4 +30,7 @@ jobs:
           npm ci
           npm run build
           npm run build:ci
-          npx cdk diff
+      - name: Run Tests
+        run: npm run test
+      - name: Preview Deploy
+        run: npx cdk diff
