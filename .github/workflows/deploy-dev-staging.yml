@@ -88,16 +88,17 @@ jobs:
       - name: Zip Artifact
         run: |
           zip -r cdk.out.zip cdk.out
-      - name: Get PR Number
-        id: pr
-        run: echo "pull_request_number=$(gh pr view --json number -q .number || echo "")" >> $GITHUB_OUTPUT
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate release tag
+        id: generate_release_tag
+        uses: alexvingg/next-release-tag@v1.0.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_prefix: ''
       - name: Create Draft Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.pr.outputs.pull_request_number }}
-          name: Release ${{ steps.pr.outputs.pull_request_number }}
+          tag_name: ${{ steps.generate_release_tag.outputs.release_tag }}
+          name: Release ${{ steps.generate_release_tag.outputs.release_tag }}
           body: |
             ## Info
             Commit ${{ github.sha }} was deployed to `staging`. [See code diff](${{ github.event.compare }}).
