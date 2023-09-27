@@ -24,7 +24,12 @@ const stagingAccountId = app.node.tryGetContext('stagingAccountId');
 const productionAccountId = app.node.tryGetContext('productionAccountId');
 
 if (developmentAccountId === undefined || stagingAccountId === undefined || productionAccountId === undefined) {
-    new CdkGithubActionsSampleStack(app, 'CdkGithubActionsSampleStack', {});
+    new CdkGithubActionsSampleStack(app, 'CdkGithubActionsSampleStack', {
+        env: {
+            account: process.env.CDK_DEFAULT_ACCOUNT,
+            region: process.env.CDK_DEFAULT_REGION,
+        },
+    });
 } else {
 
     new DeployStage(app, 'Dev', {
