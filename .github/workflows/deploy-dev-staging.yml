@@ -24,7 +24,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
-      - name: Assume CDK Deploy Role
+      - name: Assume CDK Lookup Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-region: us-east-1

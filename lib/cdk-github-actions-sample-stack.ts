@@ -4,6 +4,7 @@ import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as path from 'path';
+import { lookupStringParameterValue } from "./utils";
 
 export class CdkGithubActionsSampleStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -19,7 +20,7 @@ export class CdkGithubActionsSampleStack extends cdk.Stack {
     });
 
     new cdk.CfnOutput(this, 'ParameterInDeploymentAccount', {
-      value: ssm.StringParameter.valueFromLookup(this, 'cdk-github-action-role-arn')
+      value: lookupStringParameterValue('cdk-github-action-role-arn')
     });
 
     new cdk.CfnOutput(this, 'ParameterInTargetAccount', {
