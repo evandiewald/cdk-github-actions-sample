@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: {}
 jobs:
   synth:
     name: Synthesize
@@ -24,7 +23,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
-      - name: Assume CDK Deploy Role
+      - name: Assume CDK Lookup Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-region: us-east-1
@@ -47,76 +46,76 @@ jobs:
           name: cdk.out
           path: cdk.out
 
-  # deploy:
-  #   name: Deploy - Dev/Staging
-  #   needs: [synth]
-  #   permissions:
-  #     contents: read
-  #     id-token: write
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Download cdk.out
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: cdk.out
-  #         path: cdk.out
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: v18.15.0
-  #     - name: Authenticate Via OIDC Role
-  #       uses: aws-actions/configure-aws-credentials@v1-node16
-  #       with:
-  #         aws-region: us-east-1
-  #         role-duration-seconds: 1800
-  #         role-skip-session-tagging: true
-  #         role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
-  #     - name: Deploy - Dev
-  #       run: |-
-  #         npm install -g aws-cdk
-  #         npx cdk deploy --app "./cdk.out/assembly-Dev" --never-approve
-  #     - name: Deploy - Staging
-  #       run: |-
-  #         npx cdk deploy --app 'cdk.out/assembly-Staging' --never-approve
+  deploy:
+    name: Deploy - Dev/Staging
+    needs: [synth]
+    permissions:
+     contents: read
+     id-token: write
+    runs-on: ubuntu-latest
+    steps:
+     - name: Download cdk.out
+       uses: actions/download-artifact@v3
+       with:
+         name: cdk.out
+         path: cdk.out
+     - uses: actions/setup-node@v3
+       with:
+         node-version: v18.15.0
+     - name: Authenticate Via OIDC Role
+       uses: aws-actions/configure-aws-credentials@v1-node16
+       with:
+         aws-region: us-east-1
+         role-duration-seconds: 1800
+         role-skip-session-tagging: true
+         role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+     - name: Deploy - Dev
+       run: |-
+         npm install -g aws-cdk
+         npx cdk deploy --app "./cdk.out/assembly-Dev" --never-approve
+     - name: Deploy - Staging
+       run: |-
+         npx cdk deploy --app 'cdk.out/assembly-Staging' --never-approve
 
-  # create-release:
-  #   name: Create production release
-  #   needs: deploy
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: write
-  #     id-token: write
-  #     pull-requests: read
-  #   steps:
-  #     # need to checkout the repo to get the PR number
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - name: Download Artifact
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: cdk.out
-  #         path: cdk.out
-  #     # we can't attach a folder to a release
-  #     - name: Zip Artifact
-  #       run: |
-  #         zip -r cdk.out.zip cdk.out
-  #     - name: Generate release tag
-  #       id: generate_release_tag
-  #       uses: alexvingg/next-release-tag@v1.0.4
-  #       with:
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #         tag_prefix: ''
-  #     - name: Create Draft Release
-  #       uses: softprops/action-gh-release@v1
-  #       with:
-  #         tag_name: ${{ steps.generate_release_tag.outputs.release_tag }}
-  #         name: Release ${{ steps.generate_release_tag.outputs.release_tag }}
-  #         body: |
-  #           ## Info
-  #           Commit ${{ github.sha }} was deployed to `staging`. [See code diff](${{ github.event.compare }}).
-            
-  #           It was initialized by [${{ github.event.sender.login }}](${{ github.event.sender.html_url }}).
-            
-  #           ## How to Promote?
-  #           In order to promote this to prod, edit the draft and press **"Publish release"**.
-  #         draft: true
-  #         files: cdk.out.zip
+  create-release:
+    name: Create production release
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+     contents: write
+     id-token: write
+     pull-requests: read
+    steps:
+     # need to checkout the repo to get the PR number
+     - name: Checkout
+       uses: actions/checkout@v3
+     - name: Download Artifact
+       uses: actions/download-artifact@v3
+       with:
+         name: cdk.out
+         path: cdk.out
+     # we can't attach a folder to a release
+     - name: Zip Artifact
+       run: |
+         zip -r cdk.out.zip cdk.out
+     - name: Generate release tag
+       id: generate_release_tag
+       uses: alexvingg/next-release-tag@v1.0.4
+       with:
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+         tag_prefix: ''
+     - name: Create Draft Release
+       uses: softprops/action-gh-release@v1
+       with:
+         tag_name: ${{ steps.generate_release_tag.outputs.release_tag }}
+         name: Release ${{ steps.generate_release_tag.outputs.release_tag }}
+         body: |
+           ## Info
+           Commit ${{ github.sha }} was deployed to `staging`. [See code diff](${{ github.event.compare }}).
+          
+           It was initialized by [${{ github.event.sender.login }}](${{ github.event.sender.html_url }}).
+          
+           ## How to Promote?
+           In order to promote this to prod, edit the draft and press **"Publish release"**.
+         draft: true
+         files: cdk.out.zip
